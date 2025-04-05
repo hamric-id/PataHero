@@ -49,7 +49,7 @@ struct ProcedureFractureStep_Screen: View {
     var body: some View {
         VStack() {
             HStack{
-                Text(String(describing: LocationFractures.pergelangan_tangan).replacingOccurrences(of: "_", with: " ").capitalized.replacingOccurrences(of: " ", with: "\n"))
+                Text(String(describing: locationFractures).replacingOccurrences(of: "_", with: " ").capitalized.replacingOccurrences(of: " ", with: "\n"))
                     .frame(width:90)
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
