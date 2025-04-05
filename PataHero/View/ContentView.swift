@@ -93,15 +93,15 @@ struct ContentView: View {
                     .font(.subheadline)
                     .bold(true)
                     .foregroundColor(Color("red"))
-                    .shadow(color: .black, radius: 0.5, x: 0.5, y: 0.5)
+//                    .shadow(color: .black, radius: 0.5, x: 0.5, y: 0.5)
                 Spacer()
                 
-                Text("Pilih Prosedur Pertolongan Pertama Patah Tulang")
-                    .font(.title)
+                Text("Prosedur Pertolongan Pertama\nPatah Tulang")
+                    .font(.title2)
                     .bold()
                     .multilineTextAlignment(.center)
-                    .foregroundColor(Color("light_pink"))
-                    .shadow(color: .black, radius: 0.8, x: 0.8, y: 0.8)
+                    .foregroundColor(Color("light_red"))
+                    .shadow(color: .white, radius: 0.8, x: 0.8, y: 0.8)
                     .padding(.bottom, 20)
                 
                 ForEach(filteredListDataPreviewFracture){
