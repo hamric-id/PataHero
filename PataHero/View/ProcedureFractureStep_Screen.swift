@@ -47,65 +47,74 @@ struct ProcedureFractureStep_Screen: View {
     }
     
     var body: some View {
-        ZStack{
-            //ProcedureFractureStepViewHolder(LocationFractures.jari,4)
-            
-            VStack() {
-                HStack{
-                    MultiPoint_ProgressBar(UInt8(listProcedure.count), $currentStep)                        .padding(.horizontal, 20)
-                        .padding(.top, 5)
-                    Button{
-                        currentScreen = .contentView
-                        locationFractures_ProcedureFracture_Screen = nil
-                    }label:{}
-                        .buttonStyle(
-                            ButtonStyleSimple(Color("red"),Color("pink"),27,Color.reversePrimary,iconName:"xmark")
-                        )
-                        .padding(.trailing, 10)
+        VStack() {
+            HStack{
+                Text(String(describing: LocationFractures.pergelangan_tangan).replacingOccurrences(of: "_", with: " ").capitalized.replacingOccurrences(of: " ", with: "\n"))
+                    .frame(width:90)
+                    .font(.subheadline)
+                    .multilineTextAlignment(.center)
+                    .bold()
+                    .padding(.leading, 35)
+                    .padding(.top,4)
+                    .foregroundColor(Color("red"))
+//                    .shadow(color: .black, radius: 0.8, x: 0.8, y: 0.8)
+                Spacer()
+                Button{
+                    currentScreen = .contentView
+                    locationFractures_ProcedureFracture_Screen = nil
+                }label:{}
+                    .buttonStyle(
+                        ButtonStyleSimple(Color("red"),Color("pink"),27,Color.reversePrimary,iconName:"xmark")
+                    )
+                    .padding(.trailing, 45)
+                    .padding(.top, 7)
+            }//.ignoresSafeArea()//.frame(height:20)
+//                    .padding(.bottom, 20)
+            MultiPoint_ProgressBar(UInt8(listProcedure.count), $currentStep)
+                .padding(.horizontal, 20)
+            .overlay(GeometryReader { geometry in
+                Color.clear
+                    .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
+            })
+            .onPreferenceChange(HeightPreferenceKey.self) { newHeight in
+                print("tinggi komponen atas \(newHeight);")
+                tinggi()
+            }
+
+            Spacer()
+
+            TabView(selection: $currentStep){
+                ForEach(1...listProcedure.count, id: \.self) { stepTo in
+                    ProcedureFractureStepViewHolder(
+                        locationFractures,
+                        UInt8(stepTo),
+                        $neverHighlightedGestureTutorial
+                    ).tag(UInt8(stepTo))
                 }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))//settingan tabview agar bisa hilangkan dot white index penanda posisi
+            .onChange(of: currentStep) { newIndex in
+                //mendeteksi jika halaman baru(sebelum/setelah) sudah tampil >50% meskipun masih proses swipe)
+                print("Page changed to: \(newIndex)")
+            }
+            Spacer()
+            
+            callEkaHospital_Button(true)
+                .padding(.horizontal, 10)
+                .padding(.bottom, 5)
                 .overlay(GeometryReader { geometry in
                     Color.clear
                         .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
                 })
                 .onPreferenceChange(HeightPreferenceKey.self) { newHeight in
-                    print("tinggi komponen atas \(newHeight);")
+                    print("tinggi komponen bawah \(newHeight)")
                     tinggi()
                 }
-
-                Spacer()
-
-                TabView(selection: $currentStep){
-                    ForEach(1...listProcedure.count, id: \.self) { stepTo in
-                        ProcedureFractureStepViewHolder(
-                            locationFractures,
-                            UInt8(stepTo),
-                            $neverHighlightedGestureTutorial
-                        ).tag(UInt8(stepTo))
-                    }
-                }
-                .tabViewStyle(.page(indexDisplayMode: .never))//settingan tabview agar bisa hilangkan dot white index penanda posisi
-                .onChange(of: currentStep) { newIndex in
-                    //mendeteksi jika halaman baru(sebelum/setelah) sudah tampil >50% meskipun masih proses swipe)
-                    print("Page changed to: \(newIndex)")
-                }
-                Spacer()
-                
-                callEkaHospital_Button(true)
-                    .padding(.horizontal, 10)
-                    .padding(.bottom, 5)
-                    .overlay(GeometryReader { geometry in
-                        Color.clear
-                            .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
-                    })
-                    .onPreferenceChange(HeightPreferenceKey.self) { newHeight in
-                        print("tinggi komponen bawah \(newHeight)")
-                        tinggi()
-                    }
-                
-            }
             
-//a
-        }.background(Color("pink"))
+        }
+        .background(Color("pink"))
+        .ignoresSafeArea(.all)
+        .statusBarHidden(true)
     }
 }
 
@@ -218,8 +227,8 @@ struct ProcedureFractureStepViewHolder: View {
 }
 
 #Preview {
-//    @State var a = AppScreen.ProcedureFracture_Screen
-//    ProcedureFractureStep_Screen($a,LocationFractures.jari)
+    @State var a = AppScreen.ProcedureFracture_Screen
+    ProcedureFractureStep_Screen($a,LocationFractures.jari)
 //    ProcedureFractureStepViewHolder(LocationFractures.jari,4)
     //ProcedureFractureStepPage(LocationFractures.jari,4)
 //    ProcedureFractureStepPage(stepNumber:1, stepText:"coba",imageName: "fracture")

@@ -96,9 +96,10 @@ struct ContentView: View {
                     .shadow(color: .black, radius: 0.5, x: 0.5, y: 0.5)
                 Spacer()
                 
-                Text("Prosedur Patah Tulang")
+                Text("Pilih Prosedur Pertolongan Pertama Patah Tulang")
                     .font(.title)
-                    .bold(true)
+                    .bold()
+                    .multilineTextAlignment(.center)
                     .foregroundColor(Color("light_pink"))
                     .shadow(color: .black, radius: 0.8, x: 0.8, y: 0.8)
                     .padding(.bottom, 20)
@@ -115,10 +116,11 @@ struct ContentView: View {
                 
                 callEkaHospital_Button(true)
                     .padding(.horizontal)
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 5)
             }
             .background(Color("pink"))
             .frame(maxWidth:.infinity, maxHeight:.infinity)
+            .ignoresSafeArea(.container, edges: .bottom)
         }else{
             NavigationView{//dihapus karena jelek jika item cuma 3
                 ZStack{
@@ -155,19 +157,16 @@ struct ContentView: View {
                         }.padding(.bottom, 5)
                     }
                 }
-            }.background(Color("pink"))
+            }
+            .background(Color("pink"))
+            .ignoresSafeArea(.container, edges: .bottom)
         }
-        
-        
-        
-
-        
     }
 }
 
 
 #Preview {
-//    @State var a = AppScreen.contentView
-//    ContentView($a)
+    @State var a = AppScreen.contentView
+    ContentView($a)
 }
 
