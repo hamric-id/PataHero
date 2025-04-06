@@ -51,7 +51,7 @@ struct ContentView: View {
 //                    .shadow(color: .black, radius: 0.5, x: 0.5, y: 0.5)
                 Spacer()
                 
-                Text("Prosedur Pertolongan Pertama\nPatah Tulang")
+                Text("Silakan Pilih\nProsedur Pertolongan Pertama\nPatah Tulang")
                     .font(.title2)
                     .bold()
                     .multilineTextAlignment(.center)
@@ -71,7 +71,7 @@ struct ContentView: View {
                 
                 callEkaHospital_Button(true)
                     .padding(.horizontal)
-                    .padding(.bottom, 5)
+                    .padding(.bottom, 13)
             }
             .background(Color("pink"))
             .frame(maxWidth:.infinity, maxHeight:.infinity)

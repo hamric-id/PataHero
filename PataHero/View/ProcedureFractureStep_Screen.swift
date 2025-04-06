@@ -91,7 +91,7 @@ struct ProcedureFractureStep_Screen: View {
             
             callEkaHospital_Button(true)
                 .padding(.horizontal, 10)
-                .padding(.bottom, 5)
+                .padding(.bottom, 13)
                 .overlay(GeometryReader { geometry in
                     Color.clear
                         .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
@@ -176,7 +176,7 @@ struct ProcedureFractureStepViewHolder: View {
                     .scaledToFit()
                     .frame(maxWidth: .infinity)
                 Spacer()
-            }.frame(height:530)
+            }.frame(height:580)
             VStack{
                 Spacer()
                 
@@ -184,7 +184,7 @@ struct ProcedureFractureStepViewHolder: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .multilineTextAlignment(.center)
                     .background(Color.gray.opacity(0.3))
-            }.frame(height:530)
+            }.frame(height:580)
             HStack{
                 Text("⟪⟪")
                     .font(.title)
