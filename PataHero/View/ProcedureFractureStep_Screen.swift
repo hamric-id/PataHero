@@ -17,15 +17,10 @@ struct HeightPreferenceKey: PreferenceKey {
 
 struct ProcedureFractureStep_Screen: View {
     @Binding private var currentScreen: AppScreen
-//    private let totalStep: UInt8
     let locationFractures: LocationFractures
     private let listProcedure: [StepProcedureFractures]
     @State var currentStep: UInt8//jika ingin ganti step langsung ubah
     @State private var neverHighlightedGestureTutorial:Bool = true
-    //dimatikan karena taruh saja di viewholder
-//    @State var onHightlightGestureTutorial: Bool = false
-//    @State var onVisibleHintGestureRight: Bool
-//    @State var onVisibleHintGestureLeft: Bool
     
     func tinggi(){
         if let window1 = UIApplication.shared.windows.first {
@@ -37,13 +32,10 @@ struct ProcedureFractureStep_Screen: View {
 
     
     init(_ currentScreen: Binding<AppScreen> ,_ locationFractures: LocationFractures, _ currentStep: UInt8 = 1) {
-//        totalStep = locationFractures.totalStepProcedureFractures()
         self._currentScreen = currentScreen
         self.locationFractures = locationFractures
         self.currentStep = currentStep
         listProcedure = locationFractures.listProcedure()
-//        onVisibleHintGestureLeft = if currentStep==1 {false} else {true}
-//        onVisibleHintGestureRight = if currentStep>=listProcedure.count{false} else {true}
     }
     
     var body: some View {
@@ -57,7 +49,6 @@ struct ProcedureFractureStep_Screen: View {
                     .padding(.leading, 35)
                     .padding(.top,4)
                     .foregroundColor(Color("red"))
-//                    .shadow(color: .black, radius: 0.8, x: 0.8, y: 0.8)
                 Spacer()
                 Button{
                     currentScreen = .contentView
@@ -68,8 +59,7 @@ struct ProcedureFractureStep_Screen: View {
                     )
                     .padding(.trailing, 45)
                     .padding(.top, 7)
-            }//.ignoresSafeArea()//.frame(height:20)
-//                    .padding(.bottom, 20)
+            }
             MultiPoint_ProgressBar(UInt8(listProcedure.count), $currentStep)
                 .padding(.horizontal, 20)
             .overlay(GeometryReader { geometry in
@@ -194,7 +184,6 @@ struct ProcedureFractureStepViewHolder: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .multilineTextAlignment(.center)
                     .background(Color.gray.opacity(0.3))
-//                    .padding(.bottom, 12)
             }.frame(height:530)
             HStack{
                 Text("⟪⟪")
@@ -229,7 +218,4 @@ struct ProcedureFractureStepViewHolder: View {
 #Preview {
     @State var a = AppScreen.ProcedureFracture_Screen
     ProcedureFractureStep_Screen($a,LocationFractures.jari)
-//    ProcedureFractureStepViewHolder(LocationFractures.jari,4)
-    //ProcedureFractureStepPage(LocationFractures.jari,4)
-//    ProcedureFractureStepPage(stepNumber:1, stepText:"coba",imageName: "fracture")
 }

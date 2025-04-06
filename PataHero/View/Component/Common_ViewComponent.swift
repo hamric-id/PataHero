@@ -95,18 +95,6 @@ struct ButtonStyleSimple: ButtonStyle {
 
 #Preview {
     callEkaHospital_Button(true)
-//    Button("Eka Hospital"){
-//        print("tertekna")
-//    }.buttonStyle(
-//        ButtonStyleSimple(
-//            Color.green,
-//            Color.green.opacity(0.7),
-//            27,
-//            Color.red//,
-//            //"phone.fill"
-//        )
-//    )//"Eka Hospital"){a in}
-//    Button(Color.green, Color.green.opacity(0.7),"phone.fill", "Eka Hospital"){a in } //"Eka Hospital"){a in}
 }
 
 //ini digunakan untuk membuat button custom supaya reuseable untuk apapun, bisa untuk tombol call, close, done, dll

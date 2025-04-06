@@ -10,13 +10,10 @@ import SwiftUI
 struct MultiPoint_ProgressBar: View {
     let numberOfSteps: UInt8
     @Binding var currentStep: UInt8
-//    @State var onClick: (UInt8) -> Void
     
     init(_ numberOfSteps: UInt8 , _ currentStep1: Binding<UInt8>){
-//        _ onClick: @escaping (UInt8) -> Void) {
         self.numberOfSteps = numberOfSteps
-        self._currentStep = currentStep1//min(max(1, currentStep), numberOfSteps)
-//        self.onClick = onClick
+        self._currentStep = currentStep1
     }
     
     var body: some View {
@@ -106,7 +103,7 @@ struct ProgressBar: View {
     
     var body: some View {
         VStack(spacing: 30) {
-            //MultiPoint_ProgressBar(UInt8(4), $currentStep)
+            MultiPoint_ProgressBar(UInt8(4), $currentStep)
             Text("Current Step: \(currentStep) of 4")
                 .font(.headline)
             

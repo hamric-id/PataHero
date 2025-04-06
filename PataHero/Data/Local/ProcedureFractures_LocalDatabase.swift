@@ -24,47 +24,23 @@ extension LocationFractures{
         lazy var rawListProcedure = switch self { //dibuat lazy agar ringan
             case .jari: [
                 StepProcedureFractures("Balut jari yang patah dengan jari sebelahnya sebagai penyangga"),
-                StepProcedureFractures("Kompres es untuk mengurangi bengkak"),//tanya nana kenapa sama
-                StepProcedureFractures("Periksa secara berkala bila ada pembengkakan lain, kesemutan, atau pucat")
-            ]
-            case .lengan: [
-                StepProcedureFractures("Balut lengan yang patah dengan perban"),
-                StepProcedureFractures("Gunakan kain atau perban untuk menopang lengan ke dada"),
-                StepProcedureFractures("Periksa secara berkala bila ada pembengkakan lain, kesemutan, atau pucat")
-
+                StepProcedureFractures("Kompres es yang terbungkus dengan kain untuk mengurangi bengkak")
             ]
             case .pergelangan_tangan: [
                 StepProcedureFractures("Gunakan kain atau perban untuk menopang pergelangan tangan"),
                 StepProcedureFractures("Kompres es yang terbungkus dengan kain untuk mengurangi bengkak"),
-                StepProcedureFractures("Periksa secara berkala bila ada pembengkakan lain, kesemutan, atau pucat")
+            ]
+            case .lengan: [
+                StepProcedureFractures("Lilitkan perban untuk membalut lengan sebagai penyangga awal"),
+                StepProcedureFractures("Gunakan kain segitiga untuk menopang lengan ke dada"),
             ]
         }
-        rawListProcedure.append(StepProcedureFractures("Hubungi Eka Hospital","stepLast_patah_tulang")) //karena apapun patah tulangnya, step terakhir selalu sama
+
+        
+        rawListProcedure.append(contentsOf: [ //2 prosedur teralhir teksnya selalu sama
+            StepProcedureFractures("Periksa secara berkala bila ada pembengkakan lain, kesemutan, atau pucat"),
+            StepProcedureFractures("Hubungi Eka Hospital","stepLast_patah_tulang")
+        ]) //karena apapun patah tulangnya, step terakhir selalu sama
         return rawListProcedure
     }
 }
-
-
-//let listProcedureStep = Dictionary(uniqueKeysWithValues: LocationFractures.allCases.map { locationFractures in
-//    (locationFractures,
-//        {
-//            switch locationFractures {
-//                case .jari: return [
-//                    StepProcedureFractures("Step1"),
-//                    StepProcedureFractures("Step2"),
-//                    StepProcedureFractures("Step3")
-//                ]
-//                case .lengan: return [
-//                    StepProcedureFractures("Step1"),
-//                    StepProcedureFractures("Step2"),
-//                    StepProcedureFractures("Step3")
-//                ]
-//                case .pergelangan_tangan: return [
-//                    StepProcedureFractures("Step1"),
-//                    StepProcedureFractures("Step2"),
-//                    StepProcedureFractures("Step3")
-//                ]
-//            }
-//        }()//butuh () diakhir untuk mendefinisikan tipe value
-//    )
-//})

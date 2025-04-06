@@ -25,9 +25,7 @@ struct PataHeroApp: App {
                 case .contentView: ContentView($currentScreen)
                 case .ProcedureFracture_Screen:
                     ProcedureFractureStep_Screen($currentScreen,locationFractures_ProcedureFracture_Screen!)
-                
             }
-//            ProcedureFractureStepPage(LocationFractures.jari)
         }
     }
 }

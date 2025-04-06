@@ -34,53 +34,8 @@ struct ContentView: View {
             (searchKeyword.isEmpty || dataPreviewFracture.fractureName().lowercased().contains(searchKeyword.lowercased()))
         }
     }
-    
-//    init() {//mengatur ukuran dan warna navigationtitle
-//        let appearance = UINavigationBarAppearance()
-////        appearance.configureWithOpaqueBackground() // Ensures solid color
-////        appearance.backgroundColor = UIColor(Color("pink")) //agar backgtround searchbox dan titlebar pink
-//        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.red, .font: UIFont.systemFont(ofSize: 34, weight: .bold)]
-//        appearance.titleTextAttributes = [
-//            .foregroundColor: UIColor.label ,
-//            .font: UIFont.systemFont(ofSize: 20, weight: .semibold)
-//        ]
-//        
-//        UINavigationBar.appearance().standardAppearance = appearance
-//        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-//    }
 
-    
-    
     var body: some View { //choose your action/halaman awal
-        //let adalah val, var adalah var
-        //array.map { $0 * $0 } $0 adalah it
-//        array.forEach { (index, fruit) in} //foreachindexed
-        
-//        let fruitPrices = ["Apple": 2, "Banana": 1, "Cherry": 3] deklarasi map. jika ingin mutablemap ubah let jadi var saja
-//        removeValue(forKey: "Banana")
-//        removeAll()
-        //Uint8,Int8,ushort,Int16,Int,UInt,ULONG,Int64
-        
-        
-//        var set = Set<T>() mutable set /jika ingin imuttable pakai let
-//        insert(value)
-//        remove(value)
-//        contains(value)
-//        count //seperti size di kotlin
-//        union(set2)//menggabungkan 2 set
-//        intersection(set2)//mencari elemen yang sama diantara 2 set
-//        subtracting(set2) //mencari elemen yang berbeda di set2
-        
-        
-                
-//        array.enumerated().forEach { (index, fruit) in} //foreachindexed
-        
-//        print("\(index): \(fruit)") seperti $variabel, kalau di swift jadi\(variabel)
-        
-//        var numbers: [Int] = []  //deklarasi array kosong. jika ingin statis pakai let, dinamis pakai var
-//        var list = [T]() array dinamis kosong
-//        var fruits = ["Apple", "Banana", "Cherry"] //deklarasi array berisi
-        
         if listDataPreviewFracture.count<6 {
             VStack{
                 Text("PataHero")
@@ -169,4 +124,33 @@ struct ContentView: View {
     @State var a = AppScreen.contentView
     ContentView($a)
 }
+
+//let adalah val, var adalah var
+//array.map { $0 * $0 } $0 adalah it
+//        array.forEach { (index, fruit) in} //foreachindexed
+
+//        let fruitPrices = ["Apple": 2, "Banana": 1, "Cherry": 3] deklarasi map. jika ingin mutablemap ubah let jadi var saja
+//        removeValue(forKey: "Banana")
+//        removeAll()
+//Uint8,Int8,ushort,Int16,Int,UInt,ULONG,Int64
+
+
+//        var set = Set<T>() mutable set /jika ingin imuttable pakai let
+//        insert(value)
+//        remove(value)
+//        contains(value)
+//        count //seperti size di kotlin
+//        union(set2)//menggabungkan 2 set
+//        intersection(set2)//mencari elemen yang sama diantara 2 set
+//        subtracting(set2) //mencari elemen yang berbeda di set2
+
+
+        
+//        array.enumerated().forEach { (index, fruit) in} //foreachindexed
+
+//        print("\(index): \(fruit)") seperti $variabel, kalau di swift jadi\(variabel)
+
+//        var numbers: [Int] = []  //deklarasi array kosong. jika ingin statis pakai let, dinamis pakai var
+//        var list = [T]() array dinamis kosong
+//        var fruits = ["Apple", "Banana", "Cherry"] //deklarasi array berisi
 
