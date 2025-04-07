@@ -1,10 +1,3 @@
-//
-//  PataHeroApp.swift
-//  PataHero
-//
-//  Created by Muhammad Hamzah Robbani on 21/03/25.
-//
-
 import SwiftUI
 
 enum AppScreen {
