@@ -49,6 +49,7 @@ struct ProcedureFractureStep_Screen: View {
                     .padding(.leading, 35)
                     .padding(.top,4)
                     .foregroundColor(Color("red"))
+                    .dynamicTypeSize(.xSmall ... .large)
                 Spacer()
                 Button{
                     currentScreen = .contentView
@@ -59,6 +60,7 @@ struct ProcedureFractureStep_Screen: View {
                     )
                     .padding(.trailing, 45)
                     .padding(.top, 7)
+                    .dynamicTypeSize(.xSmall ... .xxxLarge)
             }
             MultiPoint_ProgressBar(UInt8(listProcedure.count), $currentStep)
                 .padding(.horizontal, 20)
@@ -136,7 +138,6 @@ struct ProcedureFractureStepViewHolder: View {
     func highlightGestureTutorial(_ mode:Bool) {
         if mode{
             if onVisibleHintGestureRight {
-                print("hola1")
                 onHightlightGestureTutorial = true
                 highlightGestureTutorialTimer?.invalidate() // Stop any existing timer
                 
@@ -155,7 +156,6 @@ struct ProcedureFractureStepViewHolder: View {
                                 highlightGestureTutorialOpacityIncrease = true // Start increasing
                             }
                         }
-                        print("hola2 \(highlightGestureTutorialOpacity)")
                     }
                 }
             }
@@ -180,10 +180,24 @@ struct ProcedureFractureStepViewHolder: View {
             VStack{
                 Spacer()
                 
-                Text(stepProcedureFractures.description())
+//                ScrollView{
+                    //VStack{
+                        Text(stepProcedureFractures.description())
                     .frame(maxWidth: .infinity, alignment: .center)
+                    .fixedSize(horizontal: false, vertical: true) // wrap content vertically
+                   // .frame(maxHeight: 200,alignment: .top)
+                    .clipped()
                     .multilineTextAlignment(.center)
-                    .background(Color.gray.opacity(0.3))
+                    .dynamicTypeSize(.xSmall ... .accessibility2)
+                    
+                            
+//                            .background(Color.gray.opacity(0.3))
+                            
+                      //  Spacer(minLength: 0)
+                    //}
+//                }.frame(maxHeight: 100)
+//                .frame(minHeight:0)
+                .background(Color.gray.opacity(0.3))
             }.frame(height:580)
             HStack{
                 Text("⟪⟪")
@@ -217,5 +231,5 @@ struct ProcedureFractureStepViewHolder: View {
 
 #Preview {
     @State var a = AppScreen.ProcedureFracture_Screen
-    ProcedureFractureStep_Screen($a,LocationFractures.jari)
+    ProcedureFractureStep_Screen($a,LocationFractures.pergelangan_tangan)
 }

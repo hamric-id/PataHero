@@ -37,6 +37,7 @@ struct callEkaHospital_Button: View {
             Text("Cannot Call Eka Hospital (\(EkaHospital_PhoneNumber())) because your device does not support phone calls")
         }
         .frame(width: .infinity)
+        .dynamicTypeSize(.xSmall ... .accessibility2)
     }
 }
 

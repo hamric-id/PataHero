@@ -41,11 +41,13 @@ struct ContentView: View {
                 Text("PataHero")
                     .font(.largeTitle)
                     .bold(true)
+                    .multilineTextAlignment(.center)
                     .foregroundColor(Color.yellow)
                     .shadow(color: .black, radius: 0.8, x: 0.8, y: 0.8)
                     .padding(.top,40)
                 Text("Your Mistake Make Me Useful")
                     .font(.subheadline)
+                    .multilineTextAlignment(.center)
                     .bold(true)
                     .foregroundColor(Color("red"))
 //                    .shadow(color: .black, radius: 0.5, x: 0.5, y: 0.5)
@@ -98,7 +100,6 @@ struct ContentView: View {
                             UITableView.appearance().separatorStyle = .none
                             UITableView.appearance().showsVerticalScrollIndicator = false
                         }
-    
                     }
                     .searchable(text: $searchKeyword, prompt: "Cari Prosedur Patah Tulang")
                     .navigationTitle("Prosedur Patah Tulang")
