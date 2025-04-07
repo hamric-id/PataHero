@@ -1,10 +1,3 @@
-//
-//  PataHeroApp.swift
-//  PataHero
-//
-//  Created by Muhammad Hamzah Robbani on 21/03/25.
-//
-
 import SwiftUI
 
 enum AppScreen {
@@ -14,6 +7,7 @@ enum AppScreen {
 
 var locationFractures_ProcedureFracture_Screen: LocationFractures? = nil
 
+// Richard
 @main
 struct PataHeroApp: App {
     @State private var currentScreen: AppScreen = .contentView
