@@ -45,7 +45,7 @@ struct ProcedureFractureStep_Screen: View {
                     .frame(width:90)
                     .font(.subheadline)
                     .multilineTextAlignment(.center)
-                    .bold()
+                    .bold(true)
                     .padding(.leading, 35)
                     .padding(.top,4)
                     .foregroundColor(Color("red"))
