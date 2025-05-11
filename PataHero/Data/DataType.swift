@@ -13,8 +13,6 @@ struct DataPreviewFractures:Identifiable {//ini data class
     let locationFractures: LocationFractures
     let id = UUID()
     
-    func fractureName()->String {String(describing: locationFractures).replacingOccurrences(of: "_", with: " ").capitalized}
-    
     //nama ilustrasi wajib $locationFractures_patah_tulang
     func imageName()-> String {"\(locationFractures)_patah_tulang"}
     
@@ -42,6 +40,9 @@ struct StepProcedureFractures {//ini data class
 
 enum LocationFractures: CaseIterable{
     case lengan, jari, pergelangan_tangan
+}
+extension LocationFractures {
+    func name()->String {String(describing: self).replacingOccurrences(of: "_", with: " ").capitalized}
 }
 
 

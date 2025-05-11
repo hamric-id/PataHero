@@ -14,21 +14,47 @@ struct HeightPreferenceKey: PreferenceKey {
     }
 }
 
+enum Action_ChangePage{
+    case next
+    case previous
+}
 
 struct ProcedureFractureStep_Screen: View {
     @Environment(\.dismiss) private var dismiss//supaya bisa back navlink dengan tombol custom
+    @EnvironmentObject private var handGesture_Manager: HandGesture_Manager
     private let locationFractures: LocationFractures
     @State private var showSheetTools = false//true
     private let listProcedure: [StepProcedureFractures]
-    @State var currentStep: UInt8//jika ingin ganti step langsung ubah
+    @State var currentStep: UInt8=1{
+        didSet {
+            if currentStep<1 || currentStep>UInt8(listProcedure.count) {
+                currentStep = min(max(currentStep, 1), UInt8(listProcedure.count))
+            }
+        }
+    }//jika ingin ganti step langsung ubah
     @State private var neverHighlightedGestureTutorial:Bool = true
     
-
-    func locationFractureName() -> String {
-        String(describing: locationFractures).replacingOccurrences(of: "_", with: " ").capitalized.replacingOccurrences(of: " ", with: "\n")
+    
+    private func speak(_ text:String){TextToSpeech_Manager.Manager.speak(text)}
+    
+    
+    private func changeStepPage(_ action:Action_ChangePage){
+        DispatchQueue.main.async{//hidupkan setelah 3 detik
+            withAnimation(.easeInOut){
+                if action == .next { currentStep+=1
+                }else {if currentStep != 0 {currentStep-=1}}
+            }
+        }
     }
     
-
+    private func handGestureDetected(_ handGesture: HandGesture){
+        switch handGesture {
+            case .punch: changeStepPage(Action_ChangePage.next)
+            case .retract_punch: changeStepPage(Action_ChangePage.previous)
+            case .raise: dismiss()
+            default: break
+        }
+    }
     
     init(_ locationFractures: LocationFractures, _ currentStep: UInt8 = 1) {//_ currentScreen: Binding<AppScreen> ,_ locationFractures: LocationFractures, _ currentStep: UInt8 = 1) {
         self.locationFractures = locationFractures
@@ -76,7 +102,7 @@ struct ProcedureFractureStep_Screen: View {
                         Spacer().frame(maxWidth: isDynamicIslandDevice() ? 90 : 0)
                         HStack{
                             Spacer()
-                            let locationFractureName = locationFractureName()
+                            let locationFractureName = locationFractures.name()
                             Text(locationFractureName)
                                 .font(locationFractureName.contains("\n") ? .subheadline : .title2)
                                 .multilineTextAlignment(.center)
@@ -156,6 +182,12 @@ struct ProcedureFractureStep_Screen: View {
             ToolsInformation_Screen{close_request in showSheetTools=false}
                 .presentationDetents([ .fraction(0.9997)]) // Optional, makes sheet small like a dialog
         }
+        .onAppear {
+            speak("Membuka Prosedur Patah Tulang \(locationFractures.name())")
+        }
+        #if os(watchOS) //harusnya ada if ios maka terima handgesture dari watchos
+            .onChange(of: handGesture_Manager.handGesture) { handGesture in if let handGesture = handGesture {handGestureDetected(handGesture)}}
+        #endif
     }
 }
 
@@ -272,4 +304,4 @@ struct ProcedureFractureStepViewHolder: View {
     }
 }
 
-#Preview {ProcedureFractureStep_Screen(LocationFractures.jari)}
+#Preview {ProcedureFractureStep_Screen(LocationFractures.jari).environmentObject(HandGesture_Manager())}

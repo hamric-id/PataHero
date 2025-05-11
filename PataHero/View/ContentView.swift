@@ -12,7 +12,7 @@ struct ContentView: View {
     @State private var searchKeyword = ""
     private var filteredListDataPreviewFracture: [DataPreviewFractures] { //item terfilter dari search dan filter
         listDataPreviewFracture.filter { dataPreviewFracture in
-            (searchKeyword.isEmpty || dataPreviewFracture.fractureName().lowercased().contains(searchKeyword.lowercased()))
+            (searchKeyword.isEmpty || dataPreviewFracture.locationFractures.name().lowercased().contains(searchKeyword.lowercased()))
         }
     }
     

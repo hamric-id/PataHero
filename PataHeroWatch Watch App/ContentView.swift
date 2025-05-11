@@ -13,32 +13,41 @@ import WatchConnectivity
 //entah kenapa error preview
 //PataHeroWatch Watch App crashed due to missing environment of type: HandGesture_Manager. To resolve this add `.environmentObject(HandGesture_Manager(...))` to the appropriate preview.
 struct ContentView: View {
-    @EnvironmentObject var handGesture_Manager: HandGesture_Manager
+    @EnvironmentObject private var handGesture_Manager: HandGesture_Manager
     @State private var procedureScreen_NavigationPath = NavigationPath() //mencatat jalur halaman
     private let listDataPreviewFracture = LocationFractures.allCases.map{DataPreviewFractures($0)}
     @State private var selectedLocationFractures_Index: UInt8? = nil //index di listDataPreviewFracture
+
     
+    private func ProcedureScreen_Opened() -> Bool {if procedureScreen_NavigationPath.count>0{ true} else {false}}
+    private func speak(_ text:String){TextToSpeech_Manager.Manager.speak(text)}
     
-    func gesture(_ handGesture: HandGesture){
-        switch handGesture {
-            case .wrist_twist_in:
-                if selectedLocationFractures_Index==nil { selectedLocationFractures_Index = 0
-                }else if selectedLocationFractures_Index!+UInt8(1) > UInt8(listDataPreviewFracture.count-1) {
-                    selectedLocationFractures_Index=0
-                }else {selectedLocationFractures_Index!+=UInt8(1) }
-            case .wrist_twist_out:
-                if selectedLocationFractures_Index==nil || selectedLocationFractures_Index==0 {
-                    selectedLocationFractures_Index = UInt8(listDataPreviewFracture.count-1)
-                }else {selectedLocationFractures_Index!-=UInt8(1) }
-            case .lower:
+    private func handGestureDetected(_ handGesture: HandGesture){
+        if !ProcedureScreen_Opened(){
+            func fractureName()->String?{
+                if let selectedLocationFractures_Index = selectedLocationFractures_Index {
+                    String(describing:listDataPreviewFracture[Int(selectedLocationFractures_Index)].locationFractures.name())
+                }else{nil}
+            }
+            
+            switch handGesture {
+                case .wrist_twist_in:
+                    if selectedLocationFractures_Index==nil { selectedLocationFractures_Index = 0
+                    }else if selectedLocationFractures_Index!+UInt8(1) > UInt8(listDataPreviewFracture.count-1) {
+                        selectedLocationFractures_Index=0
+                    }else {selectedLocationFractures_Index!+=UInt8(1) }
+                    speak(fractureName()!)
+                case .wrist_twist_out:
+                    if selectedLocationFractures_Index==nil || selectedLocationFractures_Index==0 {
+                        selectedLocationFractures_Index = UInt8(listDataPreviewFracture.count-1)
+                    }else {selectedLocationFractures_Index!-=UInt8(1) }
+                    speak(fractureName()!)
+                case .lower:
                     if let selectedLocationFractures_Index = selectedLocationFractures_Index {
                         procedureScreen_NavigationPath.append(listDataPreviewFracture[Int(selectedLocationFractures_Index)].locationFractures)
                     }
-            default: break
-        }
-        
-        if let selectedLocationFractures_Index = selectedLocationFractures_Index {
-            WatchSpeechManager.shared.speak(String(describing:listDataPreviewFracture[Int(selectedLocationFractures_Index)].fractureName()))
+                default: break
+            }
         }
     }
     
@@ -91,14 +100,11 @@ struct ContentView: View {
             .background(Color("pink"))
             .ignoresSafeArea()//.all, edges: .bottom)
             .navigationDestination(for: LocationFractures.self) {locationFractures in
-                ProcedureFractureStep_Screen(locationFractures) //harusnya matikan gesture back (swipe dari kiri) tapi kayanya tidak perlu karena didalam ProcedureFractureStep_Screen sudah ada gesture halaman (ketindih)
+                ProcedureFractureStep_Screen(locationFractures)
+                    .environmentObject(handGesture_Manager)//harusnya matikan gesture back (swipe dari kiri) tapi kayanya tidak perlu karena didalam ProcedureFractureStep_Screen sudah ada gesture halaman (ketindih)
             }
-            .onAppear {WatchSpeechManager.shared.speak("Putar Pergelangan untuk memilih Prosedur")}
-//            .onChange(of: handGesture_Manager.handGesture) { newGesture in
-//                if let gesture1 = newGesture {
-//                    gesture(gesture1)
-//                }
-//            }
+            .onAppear {speak("Putar Pergelangan untuk memilih Prosedur")}
+            .onChange(of: handGesture_Manager.handGesture) { handGesture in if let handGesture = handGesture {handGestureDetected(handGesture)}}
         }
     }
 }

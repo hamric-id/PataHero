@@ -7,16 +7,13 @@
 
 import AVFoundation
 
-class WatchSpeechManager {
-    static let shared = WatchSpeechManager()
+class TextToSpeech_Manager {
+    static let Manager = TextToSpeech_Manager() //ini digunakan sebagai variabel global
     
     private let synthesizer = AVSpeechSynthesizer()
-    
-    private init() {}
 
     /// Speaks the given text using Indonesian voice
     func speak(_ text: String, language: String = "id-ID", rate: Float = 0.5) {
-        print("hehe3")
         stop() // Stop any current speech
         guard let voice = AVSpeechSynthesisVoice(language: language) else {
             print("❌ Voice for language \(language) not available.")
@@ -33,7 +30,6 @@ class WatchSpeechManager {
 
     /// Stops speaking immediately
     func stop() {
-        
         if synthesizer.isSpeaking {
             print("berhenti speak")
             synthesizer.stopSpeaking(at: .immediate)

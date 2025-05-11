@@ -75,11 +75,12 @@
 				Assets.xcassets,
 				ContentView.swift,
 				Hardware/Button_Listener.swift,
-				iOS/HandGesture_Manager.swift,
 				iOS/PhoneCall_Manager.swift,
 				Output/TextToSpeech_Manager.swift,
 				PataHeroWatchApp.swift,
 				"Preview Content/Preview Assets.xcassets",
+				WatchOS/HandGesture_Manager.swift,
+				WatchOS/Model/HandGesture.swift,
 			);
 			target = B554E51E2DC88C64008DA668 /* PataHeroWatch Watch App */;
 		};
@@ -87,6 +88,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Hardware/Button_Listener.swift,
+				Output/TextToSpeech_Manager.swift,
+				WatchOS/Model/HandGesture.swift,
 			);
 			target = B53870522D8D601E0074C396 /* PataHero */;
 		};

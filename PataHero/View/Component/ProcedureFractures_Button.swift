@@ -52,7 +52,7 @@ struct ProcedureFractures_Button: View {
                 .resizable()//supaya ukuran bisa dinamis
                 .frame(width: heightButton(), height: heightButton())
                 .aspectRatio(contentMode: .fit)//aspect
-            Text(dataPreviewFractures.fractureName())
+            Text(dataPreviewFractures.locationFractures.name())
                 .foregroundColor(Color.reversePrimary)
                 .bold()
                 .multilineTextAlignment(.center)
