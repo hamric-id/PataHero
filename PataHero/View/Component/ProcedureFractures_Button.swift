@@ -18,29 +18,56 @@ struct ProcedureFractures_Button: View {
         self.onClick = onClick
     }
     
+    private func widthButton()->CGFloat{
+        let paddingHorizontal:CGFloat
+        
+        #if os(watchOS)
+            paddingHorizontal = 5
+        #else
+            paddingHorizontal = 80
+        #endif
+        
+        return screenSize().width - paddingHorizontal
+    }
+    
+    private func heightButton()->CGFloat{
+        #if os(watchOS)
+            return 55
+        #else
+            return 80
+        #endif
+    }
+    
+    private func fontSize()->CGFloat{
+        #if os(watchOS)
+                return 19
+        #else
+                return 25
+        #endif
+    }
+    
     var body: some View { //choose your action/halaman awal
         HStack {
             Image(dataPreviewFractures.imageName())
                 .resizable()//supaya ukuran bisa dinamis
-                .frame(width: 80, height: 80)
+                .frame(width: heightButton(), height: heightButton())
                 .aspectRatio(contentMode: .fit)//aspect
             Text(dataPreviewFractures.fractureName())
-                .foregroundColor(Color("reverse_primary"))
+                .foregroundColor(Color.reversePrimary)
                 .bold()
                 .multilineTextAlignment(.center)
-                .font(.system(size: 25))
+                .font(.system(size:fontSize()))
                 .frame(maxWidth: .infinity, alignment: .center)
             Spacer()
         }
-        .frame(width: UIScreen.main.bounds.width - 80)
+        .frame(width: widthButton())
         .background(isTouch ? Color("red") : Color("light_red"))
         .cornerRadius(38)//supaya bundar
         .simultaneousGesture(//harus terakhir setelah atur frame dan corner
             DragGesture(minimumDistance: 0)
                 .onChanged { _ in isTouch = true }
                 .onEnded { _ in
-                    isTouch = false
-                    print("hehe2 \(dataPreviewFractures.locationFractures)")
+                    isTouch = false//print("hehe2 \(dataPreviewFractures.locationFractures)")
                     onClick(dataPreviewFractures.locationFractures)
                 }
         )

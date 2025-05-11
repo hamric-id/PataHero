@@ -16,65 +16,36 @@ struct HeightPreferenceKey: PreferenceKey {
 
 
 struct ProcedureFractureStep_Screen: View {
-    @Binding private var currentScreen: AppScreen
-    let locationFractures: LocationFractures
+    @Environment(\.dismiss) private var dismiss//supaya bisa back navlink dengan tombol custom
+    private let locationFractures: LocationFractures
+    @State private var showSheetTools = false//true
     private let listProcedure: [StepProcedureFractures]
     @State var currentStep: UInt8//jika ingin ganti step langsung ubah
     @State private var neverHighlightedGestureTutorial:Bool = true
     
-    func tinggi(){
-        if let window1 = UIApplication.shared.windows.first {
-            //window1.bounds.height - window1.safeAreaInsets.top //- window.safeAreaInsets.bottom
-            print("tinggi total \(window1.bounds.height - window1.safeAreaInsets.top)")
-        }
+
+    func locationFractureName() -> String {
+        String(describing: locationFractures).replacingOccurrences(of: "_", with: " ").capitalized.replacingOccurrences(of: " ", with: "\n")
     }
     
 
     
-    init(_ currentScreen: Binding<AppScreen> ,_ locationFractures: LocationFractures, _ currentStep: UInt8 = 1) {
-        self._currentScreen = currentScreen
+    init(_ locationFractures: LocationFractures, _ currentStep: UInt8 = 1) {//_ currentScreen: Binding<AppScreen> ,_ locationFractures: LocationFractures, _ currentStep: UInt8 = 1) {
         self.locationFractures = locationFractures
         self.currentStep = currentStep
         listProcedure = locationFractures.listProcedure()
     }
     
+    func paddingTopProgressBar() -> CGFloat {
+        #if !os(watchOS)
+            return -8
+        #else
+            return 5
+        #endif
+    }
+    
     var body: some View {
-        VStack() {
-            HStack{
-                Text(String(describing: locationFractures).replacingOccurrences(of: "_", with: " ").capitalized.replacingOccurrences(of: " ", with: "\n"))
-                    .frame(width:90)
-                    .font(.subheadline)
-                    .multilineTextAlignment(.center)
-                    .bold(true)
-                    .padding(.leading, 35)
-                    .padding(.top,4)
-                    .foregroundColor(Color("red"))
-                    .dynamicTypeSize(.xSmall ... .large)
-                Spacer()
-                Button{
-                    currentScreen = .contentView
-                    locationFractures_ProcedureFracture_Screen = nil
-                }label:{}
-                    .buttonStyle(
-                        ButtonStyleSimple(Color("red"),Color("pink"),27,Color.reversePrimary,iconName:"xmark")
-                    )
-                    .padding(.trailing, 45)
-                    .padding(.top, 7)
-                    .dynamicTypeSize(.xSmall ... .xxxLarge)
-            }
-            MultiPoint_ProgressBar(UInt8(listProcedure.count), $currentStep)
-                .padding(.horizontal, 20)
-            .overlay(GeometryReader { geometry in
-                Color.clear
-                    .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
-            })
-            .onPreferenceChange(HeightPreferenceKey.self) { newHeight in
-                print("tinggi komponen atas \(newHeight);")
-                tinggi()
-            }
-
-            Spacer()
-
+        ZStack{//
             TabView(selection: $currentStep){
                 ForEach(1...listProcedure.count, id: \.self) { stepTo in
                     ProcedureFractureStepViewHolder(
@@ -82,6 +53,7 @@ struct ProcedureFractureStep_Screen: View {
                         UInt8(stepTo),
                         $neverHighlightedGestureTutorial
                     ).tag(UInt8(stepTo))
+                    .padding(.top,-26)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))//settingan tabview agar bisa hilangkan dot white index penanda posisi
@@ -89,30 +61,107 @@ struct ProcedureFractureStep_Screen: View {
                 //mendeteksi jika halaman baru(sebelum/setelah) sudah tampil >50% meskipun masih proses swipe)
                 print("Page changed to: \(newIndex)")
             }
-            Spacer()
             
-            callEkaHospital_Button(true)
-                .padding(.horizontal, 10)
-                .padding(.bottom, 13)
-                .overlay(GeometryReader { geometry in
-                    Color.clear
-                        .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
-                })
-                .onPreferenceChange(HeightPreferenceKey.self) { newHeight in
-                    print("tinggi komponen bawah \(newHeight)")
-                    tinggi()
-                }
+            VStack() {
+                #if !os(watchOS)
+                    HStack{
+                        HStack{
+                            Spacer()
+                            Button{ dismiss() }label:{}
+                                .buttonStyle(
+                                    ButtonStyleSimple(Color("red"),Color("pink"),27,Color.reversePrimary,iconName:"xmark")
+                                )
+                            Spacer()
+                        }
+                        Spacer().frame(maxWidth: isDynamicIslandDevice() ? 90 : 0)
+                        HStack{
+                            Spacer()
+                            let locationFractureName = locationFractureName()
+                            Text(locationFractureName)
+                                .font(locationFractureName.contains("\n") ? .subheadline : .title2)
+                                .multilineTextAlignment(.center)
+                                .bold(true)
+                                .foregroundColor(Color("red"))
+                            Spacer()
+                        }
+                    }
+                    .padding(.top,8)//supaya ditengah dynami  island secara horixontal
+                    .dynamicTypeSize(.xSmall ... .large)
+                #endif
+                
+                MultiPoint_ProgressBar(MultiPointProgressBar_Type.line,UInt8(listProcedure.count), $currentStep)
+                    .overlay(GeometryReader { geometry in
+                        Color.clear
+                            .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
+                    })
+                    #if os(watchOS)
+                        .padding(.horizontal,30)
+                    #endif
+                    .padding(.top,paddingTopProgressBar())
+                
+                #if os(watchOS)
+                    HStack{
+                        Button{ dismiss() }label:{}
+                            .buttonStyle(
+                                ButtonStyleSimple(Color("red"),Color("pink"),27,Color.reversePrimary,iconName:"xmark")
+                            )
+                            .padding(.top,-2)
+                            .padding(.leading,20)
+                        Spacer()
+                        callEkaHospital_Button()
+                            .padding(.trailing,10)
+                    }
+                #endif
+                
+                
+                Spacer()
+                
+//                TabView(selection: $currentStep){
+//                    ForEach(1...listProcedure.count, id: \.self) { stepTo in
+//                        ProcedureFractureStepViewHolder(
+//                            locationFractures,
+//                            UInt8(stepTo),
+//                            $neverHighlightedGestureTutorial
+//                        ).tag(UInt8(stepTo))
+//                    }
+//                }
+//                .tabViewStyle(.page(indexDisplayMode: .never))//settingan tabview agar bisa hilangkan dot white index penanda posisi
+//                .onChange(of: currentStep) { newIndex in
+//                    //mendeteksi jika halaman baru(sebelum/setelah) sudah tampil >50% meskipun masih proses swipe)
+//                    print("Page changed to: \(newIndex)")
+//                }
+//                Spacer()
+                #if !os(watchOS)
+                    HStack{
+                        callEkaHospital_Button()
+                            .overlay(GeometryReader { geometry in
+                                Color.clear
+                                    .preference(key: HeightPreferenceKey.self, value: geometry.size.height)
+                            })
+                        Button{showSheetTools=true}label:{}
+                            .buttonStyle(ButtonStyleSimple(Color("blue"),Color("white"),27,Color.reversePrimary,iconName:"cross.case"))
+                            .dynamicTypeSize(.xSmall ... .xxxLarge)
+                    }.padding(.bottom, 13)
+                #endif
+            }
+            .ignoresSafeArea(.all)
+            #if !os(watchOS)
+                .statusBarHidden(true)
+            #endif
+            .navigationBarBackButtonHidden(true)
             
         }
         .background(Color("pink"))
-        .ignoresSafeArea(.all)
-        .statusBarHidden(true)
+        .sheet(isPresented: $showSheetTools) {
+            ToolsInformation_Screen{close_request in showSheetTools=false}
+                .presentationDetents([ .fraction(0.9997)]) // Optional, makes sheet small like a dialog
+        }
     }
 }
 
 struct ProcedureFractureStepViewHolder: View {
-    let totalStep: UInt8
-    let locationFractures: LocationFractures
+    private let totalStep: UInt8
+    private let locationFractures: LocationFractures
     @Binding private var highlightGestureTutorial: Bool
     @State var stepProcedureFractures: StepProcedureFractures
     @State var currentStep: UInt8//jika ingin ganti step langsung ubah saja ini karena sudah terhubung state
@@ -125,7 +174,6 @@ struct ProcedureFractureStepViewHolder: View {
     
     
     init(_ locationFractures: LocationFractures,_ currentStep: UInt8, _ highlightGestureTutorial: Binding<Bool>) {
-        print("hehe \(locationFractures)")
         self._highlightGestureTutorial = highlightGestureTutorial
         self.currentStep = currentStep
         self.totalStep = locationFractures.totalStepProcedureFractures()
@@ -166,6 +214,7 @@ struct ProcedureFractureStepViewHolder: View {
         }
     }
 
+
     var body: some View {
         ZStack{
             VStack() {
@@ -176,29 +225,23 @@ struct ProcedureFractureStepViewHolder: View {
                     .scaledToFit()
                     .frame(maxWidth: .infinity)
                 Spacer()
-            }.frame(height:580)
+            }
             VStack{
                 Spacer()
-                
-//                ScrollView{
-                    //VStack{
-                        Text(stepProcedureFractures.description())
+                Text(stepProcedureFractures.description())
+                    #if os(watchOS)
+                        .foregroundColor(.black)
+                    #endif
                     .frame(maxWidth: .infinity, alignment: .center)
                     .fixedSize(horizontal: false, vertical: true) // wrap content vertically
-                   // .frame(maxHeight: 200,alignment: .top)
                     .clipped()
                     .multilineTextAlignment(.center)
                     .dynamicTypeSize(.xSmall ... .accessibility2)
-                    
-                            
-//                            .background(Color.gray.opacity(0.3))
-                            
-                      //  Spacer(minLength: 0)
-                    //}
-//                }.frame(maxHeight: 100)
-//                .frame(minHeight:0)
-                .background(Color.gray.opacity(0.3))
-            }.frame(height:580)
+                    .background(Color.gray.opacity(0.3))
+                    #if !os(watchOS)
+                        .padding(.bottom,75)
+                    #endif
+            }
             HStack{
                 Text("⟪⟪")
                     .font(.title)
@@ -207,7 +250,7 @@ struct ProcedureFractureStepViewHolder: View {
                 Spacer()
                 Text("⟫⟫")
                     .font(.title)
-                    .frame(width:(UIScreen.main.bounds.width/2),height: UIScreen.main.bounds.height,alignment: .trailing)
+                    .frame(width:(screenSize().width/2),height: screenSize().height,alignment: .trailing)
                     .padding(.trailing, 5)
                     .background(Color.green.opacity(Double(highlightGestureTutorialOpacity)))
                     .opacity(onVisibleHintGestureRight ? 1 : 0)
@@ -222,14 +265,11 @@ struct ProcedureFractureStepViewHolder: View {
                             }
                         }else{ highlightGestureTutorial(false)} //karena rencananya nantyi di recycler
                     }
-            }.frame(height:530)
+                    
+            }
         }
-        .frame(height:530)
         .background(Color.clear)
     }
 }
 
-#Preview {
-    @State var a = AppScreen.ProcedureFracture_Screen
-    ProcedureFractureStep_Screen($a,LocationFractures.pergelangan_tangan)
-}
+#Preview {ProcedureFractureStep_Screen(LocationFractures.jari)}

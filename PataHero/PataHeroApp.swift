@@ -6,26 +6,24 @@
 //
 
 import SwiftUI
+import WatchConnectivity
 
-enum AppScreen {
-    case contentView
-    case ProcedureFracture_Screen
-}
-
-var locationFractures_ProcedureFracture_Screen: LocationFractures? = nil
-
+    
 @main
 struct PataHeroApp: App {
-    @State private var currentScreen: AppScreen = .contentView
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
+    init() {
+        _ = PhoneCall_Manager.shared
+    }
     
     var body: some Scene {
         WindowGroup {
-            
-            switch currentScreen{
-                case .contentView: ContentView($currentScreen)
-                case .ProcedureFracture_Screen:
-                    ProcedureFractureStep_Screen($currentScreen,locationFractures_ProcedureFracture_Screen!)
-            }
+            ContentView()
         }
     }
 }
+
+class AppDelegate: NSObject, UIApplicationDelegate {var handGesture_Manager = HandGesture_Manager()}
+
+

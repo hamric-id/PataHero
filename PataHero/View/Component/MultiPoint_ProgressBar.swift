@@ -7,11 +7,18 @@
 
 import SwiftUI
 
+enum MultiPointProgressBar_Type{
+    case circle
+    case line
+}
+
 struct MultiPoint_ProgressBar: View {
     let numberOfSteps: UInt8
     @Binding var currentStep: UInt8
+    private let type:MultiPointProgressBar_Type
     
-    init(_ numberOfSteps: UInt8 , _ currentStep1: Binding<UInt8>){
+    init(_ type:MultiPointProgressBar_Type,_ numberOfSteps: UInt8 , _ currentStep1: Binding<UInt8>){
+        self.type = type
         self.numberOfSteps = numberOfSteps
         self._currentStep = currentStep1
     }
@@ -19,13 +26,19 @@ struct MultiPoint_ProgressBar: View {
     var body: some View {
         HStack(spacing: 0) {
             ForEach(1...Int(numberOfSteps), id: \.self) { stepTo in
-                StepCircle(UInt8(stepTo), stepTo <= currentStep){stepTo in
-                    let stepTo = UInt8(stepTo)!
-                    if stepTo != currentStep{ currentStep = stepTo}
-                }
                 
-                if stepTo < numberOfSteps {
-                    ConnectingLine( stepTo < currentStep)
+                switch type{
+                    case .circle:
+                        StepCircle(UInt8(stepTo), stepTo <= currentStep){stepTo in
+                            let stepTo = UInt8(stepTo)!
+                            if stepTo != currentStep{ currentStep = stepTo}
+                        }
+                        
+                        if stepTo < numberOfSteps {
+                            ConnectingLine( stepTo < currentStep)
+                        }
+                    
+                case .line: ConnectingLine( stepTo <= currentStep).padding(.horizontal,3)
                 }
             }
         }
@@ -74,6 +87,7 @@ struct StepCircle: View {
             Text(description())
                 .font(.headline)
                 .foregroundColor(isCompleted ? .white : .gray)
+                .dynamicTypeSize(.xSmall ... .accessibility1)
         }
         .simultaneousGesture(//harus terakhir setelah atur frame dan corner
             DragGesture(minimumDistance: 0)
@@ -103,7 +117,7 @@ struct ProgressBar: View {
     
     var body: some View {
         VStack(spacing: 30) {
-            MultiPoint_ProgressBar(UInt8(4), $currentStep)
+            MultiPoint_ProgressBar(MultiPointProgressBar_Type.line,UInt8(4), $currentStep)
             Text("Current Step: \(currentStep) of 4")
                 .font(.headline)
             

@@ -4,19 +4,21 @@
 import SwiftUI
 import AVKit
 import AVFoundation
+import WatchConnectivity
 
 struct ContentView: View {
-    @Binding private var currentScreen: AppScreen
-    private let listDataPreviewFracture = LocationFractures.allCases.map{
-        DataPreviewFractures($0)
+    @State private var procedureScreen_NavigationPath = NavigationPath() //mencatat jalur halaman
+    private let listDataPreviewFracture = LocationFractures.allCases.map{DataPreviewFractures($0)}
+    @State private var searchKeyword = ""
+    private var filteredListDataPreviewFracture: [DataPreviewFractures] { //item terfilter dari search dan filter
+        listDataPreviewFracture.filter { dataPreviewFracture in
+            (searchKeyword.isEmpty || dataPreviewFracture.fractureName().lowercased().contains(searchKeyword.lowercased()))
+        }
     }
     
-    init(_ currentScreen: Binding<AppScreen>){
-        self._currentScreen = currentScreen
-        
+    init(){
         let appearance = UINavigationBarAppearance()
-//        appearance.configureWithOpaqueBackground() // Ensures solid color
-//        appearance.backgroundColor = UIColor(Color("pink")) //agar backgtround searchbox dan titlebar pink
+
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.red, .font: UIFont.systemFont(ofSize: 34, weight: .bold)]
         appearance.titleTextAttributes = [
             .foregroundColor: UIColor.label ,
@@ -26,105 +28,93 @@ struct ContentView: View {
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
-//    @State private var isTouching: Bool = false
-    @State private var searchKeyword: String=""
-    
-    private var filteredListDataPreviewFracture: [DataPreviewFractures] { //item terfilter dari search dan filter
-        listDataPreviewFracture.filter { dataPreviewFracture in
-            (searchKeyword.isEmpty || dataPreviewFracture.fractureName().lowercased().contains(searchKeyword.lowercased()))
-        }
-    }
 
     var body: some View { //choose your action/halaman awal
-        if listDataPreviewFracture.count<6 {
-            VStack{
-                Text("PataHero")
-                    .font(.largeTitle)
-                    .bold(true)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(Color.yellow)
-                    .shadow(color: .black, radius: 0.8, x: 0.8, y: 0.8)
-                    .padding(.top,40)
-                Text("Your Mistake Make Me Useful")
-                    .font(.subheadline)
-                    .multilineTextAlignment(.center)
-                    .bold(true)
-                    .foregroundColor(Color("red"))
-//                    .shadow(color: .black, radius: 0.5, x: 0.5, y: 0.5)
-                Spacer()
-                
-                Text("Silakan Pilih\nProsedur Pertolongan Pertama\nPatah Tulang")
-                    .font(.title2)
-                    .bold()
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(Color("light_red"))
-                    .shadow(color: .white, radius: 0.8, x: 0.8, y: 0.8)
-                    .padding(.bottom, 20)
-                
-                ForEach(filteredListDataPreviewFracture){
-                    
-                    ProcedureFractures_Button($0){locationFractures in
-                        locationFractures_ProcedureFracture_Screen = locationFractures
-                    
-                        currentScreen = .ProcedureFracture_Screen
-                    }
+        NavigationStack(path: $procedureScreen_NavigationPath) {
+            if listDataPreviewFracture.count<6 {
+                VStack{
+                    Text("PataHero")
+                        .font(.largeTitle)
+                        .bold(true)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color.yellow)
+                        .shadow(color: .black, radius: 0.8, x: 0.8, y: 0.8)
+                        .padding(.top,40)
+                    Text("Your Mistake Make Me Useful")
+                        .font(.subheadline)
+                        .multilineTextAlignment(.center)
+                        .bold(true)
+                        .foregroundColor(Color("red"))//.shadow(color: .black, radius: 0.5, x: 0.5, y: 0.5)
                     Spacer()
-                }
-                
-                callEkaHospital_Button(true)
-                    .padding(.horizontal)
-                    .padding(.bottom, 13)
-            }
-            .background(Color("pink"))
-            .frame(maxWidth:.infinity, maxHeight:.infinity)
-            .ignoresSafeArea(.container, edges: .bottom)
-        }else{
-            NavigationView{//dihapus karena jelek jika item cuma 3
-                ZStack{
-                    VStack {
-        //                Spacer().frame(height: 20)
-                        List(filteredListDataPreviewFracture) {dataPreviewFractures in
-                            ProcedureFractures_Button(dataPreviewFractures){locationFractures in
-                                print("\(locationFractures) tertekan")
-    
-                                locationFractures_ProcedureFracture_Screen = locationFractures
-                                print("hehe3 \(locationFractures_ProcedureFracture_Screen)")
-                                currentScreen = .ProcedureFracture_Screen
-                            }
-                            .listRowBackground(Color.clear) //mengatur background list transparan, karena defaultnya viewholdernya kotak, tidak bisa radius
-                            .listRowSeparator(.hidden)//mengatur garis pemisah antar item wrana transparan
+                    
+                    Text("Silakan Pilih\nProsedur Pertolongan Pertama\nPatah Tulang")
+                        .font(.title2)
+                        .bold()
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.reversePrimary)
+                        .padding(.bottom, 20)
+                    
+                    ForEach(filteredListDataPreviewFracture){
+                        
+                        ProcedureFractures_Button($0){locationFractures in print("\(locationFractures) tertekan")
+                            procedureScreen_NavigationPath.append(locationFractures)
                         }
-                        .background(Color("pink"))
-                        .scrollContentBackground(.hidden) //
-                        .onAppear {
-                            UITableView.appearance().separatorStyle = .none
-                            UITableView.appearance().showsVerticalScrollIndicator = false
-                        }
-                    }
-                    .searchable(text: $searchKeyword, prompt: "Cari Prosedur Patah Tulang")
-                    .navigationTitle("Prosedur Patah Tulang")
-                    .navigationBarTitleDisplayMode(.inline)
-                    HStack{
                         Spacer()
-                        VStack{
+                    }
+                    
+                    callEkaHospital_Button(true)
+                        .padding(.horizontal)
+                        .padding(.bottom, 13)
+                }
+                .background(Color("pink"))
+                .frame(maxWidth:.infinity, maxHeight:.infinity)
+                .ignoresSafeArea(.container, edges: .bottom)
+                .navigationDestination(for: LocationFractures.self) {locationFractures in
+                    ProcedureFractureStep_Screen(locationFractures) //harusnya matikan gesture back (swipe dari kiri) tapi kayanya tidak perlu karena didalam ProcedureFractureStep_Screen sudah ada gesture halaman (ketindih)
+                }
+            }else{
+                NavigationView{//dihapus karena jelek jika item cuma 3
+                    ZStack{
+                        VStack {
+                            List(filteredListDataPreviewFracture) {dataPreviewFractures in
+                                ProcedureFractures_Button(dataPreviewFractures){locationFractures in//print("\(locationFractures) tertekan")
+                                    procedureScreen_NavigationPath.append(locationFractures)
+                                }
+                                .listRowBackground(Color.clear) //mengatur background list transparan, karena defaultnya viewholdernya kotak, tidak bisa radius
+                                .listRowSeparator(.hidden)//mengatur garis pemisah antar item wrana transparan
+                            }
+                            .background(Color("pink"))
+                            .scrollContentBackground(.hidden) //
+                            .onAppear {
+                                UITableView.appearance().separatorStyle = .none
+                                UITableView.appearance().showsVerticalScrollIndicator = false
+                            }
+                        }
+                        .searchable(text: $searchKeyword, prompt: "Cari Prosedur Patah Tulang")
+                        .navigationTitle("Prosedur Patah Tulang")
+                        .navigationBarTitleDisplayMode(.inline)
+                        HStack{
                             Spacer()
-                            callEkaHospital_Button()
-                                .padding(.trailing, 5)
-                        }.padding(.bottom, 5)
+                            VStack{
+                                Spacer()
+                                callEkaHospital_Button()
+                                    .padding(.trailing, 5)
+                            }.padding(.bottom, 5)
+                        }
                     }
                 }
+                .background(Color("pink"))
+                .ignoresSafeArea(.container, edges: .bottom)
+                .navigationDestination(for: LocationFractures.self) {locationFractures in
+                    ProcedureFractureStep_Screen(locationFractures) //harusnya matikan gesture back (swipe dari kiri) tapi kayanya tidak perlu karena didalam ProcedureFractureStep_Screen sudah ada gesture halaman (ketindih)
+                }
             }
-            .background(Color("pink"))
-            .ignoresSafeArea(.container, edges: .bottom)
         }
     }
 }
 
 
-#Preview {
-    @State var a = AppScreen.contentView
-    ContentView($a)
-}
+#Preview {ContentView()}
 
 //let adalah val, var adalah var
 //array.map { $0 * $0 } $0 adalah it
