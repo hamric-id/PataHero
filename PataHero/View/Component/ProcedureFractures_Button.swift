@@ -10,12 +10,18 @@ import UIKit
 
 struct ProcedureFractures_Button: View {
     private let dataPreviewFractures: DataPreviewFractures
-    @State private var isTouch: Bool = false
+    @State private var isTouch: Bool = false {
+        didSet {
+            selectedButton_LocationFractures = dataPreviewFractures.locationFractures
+        }
+    }
+    @Binding private var selectedButton_LocationFractures: LocationFractures?
     let onClick: (LocationFractures) -> Void
     
-    init(_ dataPreviewFractures: DataPreviewFractures, _ onClick: @escaping (LocationFractures) -> Void) {//@escaping berfungsi agar bisa lambda callback entah kenapa. jika tidak pakai katanya setara sync alias spt return
+    init(_ dataPreviewFractures: DataPreviewFractures,_ selectedButton_LocationFractures: Binding<LocationFractures?> ,_ onClick: @escaping (LocationFractures) -> Void) {//@escaping berfungsi agar bisa lambda callback entah kenapa. jika tidak pakai katanya setara sync alias spt return
         self.dataPreviewFractures = dataPreviewFractures
         self.onClick = onClick
+        self._selectedButton_LocationFractures = selectedButton_LocationFractures
     }
     
     private func widthButton()->CGFloat{
@@ -61,13 +67,19 @@ struct ProcedureFractures_Button: View {
             Spacer()
         }
         .frame(width: widthButton())
-        .background(isTouch ? Color("red") : Color("light_red"))
+        .background(isTouch ?
+                        Color.clear :
+                    (selectedButton_LocationFractures==nil || selectedButton_LocationFractures==dataPreviewFractures.locationFractures) ?
+                        Color.red :
+                        Color.lightRed.opacity(0.5)
+        )
         .cornerRadius(38)//supaya bundar
         .simultaneousGesture(//harus terakhir setelah atur frame dan corner
             DragGesture(minimumDistance: 0)
                 .onChanged { _ in isTouch = true }
                 .onEnded { _ in
                     isTouch = false//print("hehe2 \(dataPreviewFractures.locationFractures)")
+                    selectedButton_LocationFractures = dataPreviewFractures.locationFractures
                     onClick(dataPreviewFractures.locationFractures)
                 }
         )
@@ -76,7 +88,8 @@ struct ProcedureFractures_Button: View {
 
 
 #Preview {
-    ProcedureFractures_Button(DataPreviewFractures(LocationFractures.pergelangan_tangan)){ locationFractures in
+    @State var locationFractures1:LocationFractures? = LocationFractures.pergelangan_tangan
+    ProcedureFractures_Button(DataPreviewFractures(locationFractures1!), $locationFractures1 ){ locationFractures in
         
     }
 }

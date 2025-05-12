@@ -64,6 +64,7 @@
 				View/Component/Common_ViewComponent.swift,
 				View/Component/MultiPoint_ProgressBar.swift,
 				View/Component/ProcedureFractures_Button.swift,
+				View/Model/Common_Model.swift,
 				View/ProcedureFractureStep_Screen.swift,
 				View/ToolsInformation_Screen.swift,
 			);

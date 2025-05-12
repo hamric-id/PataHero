@@ -14,11 +14,6 @@ struct HeightPreferenceKey: PreferenceKey {
     }
 }
 
-enum Action_ChangePage{
-    case next
-    case previous
-}
-
 struct ProcedureFractureStep_Screen: View {
     @Environment(\.dismiss) private var dismiss//supaya bisa back navlink dengan tombol custom
     @EnvironmentObject private var handGesture_Manager: HandGesture_Manager

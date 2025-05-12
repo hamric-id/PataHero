@@ -15,6 +15,16 @@ struct ContentView: View {
             (searchKeyword.isEmpty || dataPreviewFracture.locationFractures.name().lowercased().contains(searchKeyword.lowercased()))
         }
     }
+    @State private var selected_LocationFractures:LocationFractures? = nil{
+        didSet {
+            if let selected_LocationFractures=selected_LocationFractures{speak(selected_LocationFractures.name())}
+      
+        }
+    }
+    
+    private func speak(_ text:String){TextToSpeech_Manager.Manager.speak(text)}
+    
+    
     
     init(){
         let appearance = UINavigationBarAppearance()
@@ -56,7 +66,7 @@ struct ContentView: View {
                     
                     ForEach(filteredListDataPreviewFracture){
                         
-                        ProcedureFractures_Button($0){locationFractures in print("\(locationFractures) tertekan")
+                        ProcedureFractures_Button($0, $selected_LocationFractures){locationFractures in print("\(locationFractures) tertekan")
                             procedureScreen_NavigationPath.append(locationFractures)
                         }
                         Spacer()
@@ -77,7 +87,7 @@ struct ContentView: View {
                     ZStack{
                         VStack {
                             List(filteredListDataPreviewFracture) {dataPreviewFractures in
-                                ProcedureFractures_Button(dataPreviewFractures){locationFractures in//print("\(locationFractures) tertekan")
+                                ProcedureFractures_Button(dataPreviewFractures, $selected_LocationFractures){locationFractures in//print("\(locationFractures) tertekan")
                                     procedureScreen_NavigationPath.append(locationFractures)
                                 }
                                 .listRowBackground(Color.clear) //mengatur background list transparan, karena defaultnya viewholdernya kotak, tidak bisa radius
