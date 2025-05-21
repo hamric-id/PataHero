@@ -9,24 +9,26 @@ import Foundation
 import CoreMotion
 import Combine
 import WatchConnectivity
+import WatchKit
 
 enum AppleWatch_PhysicData {
     case attitude_pitch
     case userAcceleration_x
 }
 
-class HandGesture_Manager: ObservableObject {
+class HandGesture_Manager: NSObject, ObservableObject{//}, WKExtendedRuntimeSessionDelegate {
     private let motionManager = CMMotionManager()
     private var lastGestureTime = Date.distantPast
     private var lastDataHandGesture: [AppleWatch_PhysicData: Float]? = nil
-    @Published var handGesture: HandGesture? {
-        didSet {
-            
-        }
-    }
-
-    init() {
+    @Published var handGesture: HandGesture?
+    private var session: WKExtendedRuntimeSession?
+    
+    override init() {
+        super.init()
         startDetection()
+        session = WKExtendedRuntimeSession() //supaya ga mati
+        session?.delegate = self
+        session?.start()
     }
 
     deinit {
@@ -103,5 +105,27 @@ class HandGesture_Manager: ObservableObject {
             
 //            print("attitude= \(motion.attitude.pitch),\(motion.attitude.roll),\(motion.attitude.yaw)")
         }
+    }
+}
+
+//supaya applewatch mematikan gesture builtin
+extension HandGesture_Manager: WKExtendedRuntimeSessionDelegate {
+    func extendedRuntimeSession(_ extendedRuntimeSession: WKExtendedRuntimeSession, didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason, error: (any Error)?) {
+        print("Extended session invalidated. Reason: \(reason.rawValue)")
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+    }
+    
+    func extendedRuntimeSessionDidStart(_ session: WKExtendedRuntimeSession) {
+        print("Extended runtime session started")
+    }
+
+    func extendedRuntimeSessionWillExpire(_ session: WKExtendedRuntimeSession) {
+        print("Runtime session will expire soon")
+    }
+
+    func extendedRuntimeSessionDidInvalidate(_ session: WKExtendedRuntimeSession) {
+        print("Extended runtime session ended")
     }
 }

@@ -6,7 +6,7 @@
 //
 
 
-enum HandGesture{
+enum HandGesture : String{
     case lower
     case raise
     case away_from_chest
@@ -15,4 +15,14 @@ enum HandGesture{
     case wrist_twist_out
     case punch
     case retract_punch
+}
+
+extension HandGesture{
+    func name() -> String{
+        self.rawValue
+            .replacingOccurrences(of: "_", with: " ")
+            .capitalized
+            .replacingOccurrences(of: " From", with: " from")//harusnya from dan to tidak perlu capitalized
+            .replacingOccurrences(of: " To", with: " to")
+    }
 }

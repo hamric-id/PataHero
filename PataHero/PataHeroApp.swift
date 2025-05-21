@@ -8,22 +8,31 @@
 import SwiftUI
 import WatchConnectivity
 
+enum LocalDataKey{
+    case Shortcut_ScreenRequest
+}
+
+extension LocalDataKey {
+    func name() -> String {String(describing: self)}
+}
+
+
     
 @main
 struct PataHeroApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject private var watchCommunication_Manager = WatchOSCommunication_Manager()
+    @AppStorage(LocalDataKey.Shortcut_ScreenRequest.name()) private var Shortcut_ScreenRequest = false//: String?
+    @StateObject private var textToSpeech_Manager = TextToSpeech_Manager()
+//    @StateObject private var speechToText_Manager = SpeechToText_Manager()
     
-    init() {
-        _ = PhoneCall_Manager.shared
-    }
+
     
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(watchCommunication_Manager)
+                .environmentObject(textToSpeech_Manager)
+//                .environmentObject(speechToText_Manager)
         }
     }
 }
-
-class AppDelegate: NSObject, UIApplicationDelegate {var handGesture_Manager = HandGesture_Manager()}
-
-

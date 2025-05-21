@@ -9,6 +9,24 @@ import SwiftUI
 
 //jika support telpon maka true
 
+//menghitung huruf vokal
+extension String {
+    func countVowels() -> UInt8 {
+        let vowels = "aeiouAEIOU"
+        return self.reduce(0) { count, char in
+            vowels.contains(char) ? count + 1 : count
+        }
+    }
+}
+
+
+
+struct AppCrash: Error {
+    let message: String
+    
+    init(_ message: String) {self.message = message}
+}
+
 func screenSize()->CGRect{
     #if os(watchOS)
         return WKInterfaceDevice.current().screenBounds

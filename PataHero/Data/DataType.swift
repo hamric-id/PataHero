@@ -38,9 +38,13 @@ struct StepProcedureFractures {//ini data class
     }
 }
 
-enum LocationFractures: CaseIterable{
+enum LocationFractures: String, CaseIterable, Codable{
     case lengan, jari, pergelangan_tangan
 }
+extension String {
+    func toLocationFractures()-> LocationFractures? {LocationFractures(rawValue: self)}
+}
+
 extension LocationFractures {
     func name()->String {String(describing: self).replacingOccurrences(of: "_", with: " ").capitalized}
 }

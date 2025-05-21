@@ -7,10 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B51797F82DD521510094D1C6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B51797F72DD521510094D1C6 /* WidgetKit.framework */; };
+		B51797FA2DD521510094D1C6 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B51797F92DD521510094D1C6 /* SwiftUI.framework */; };
+		B517980B2DD521520094D1C6 /* PataHeroWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B51797F52DD521510094D1C6 /* PataHeroWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B554E5422DC88C65008DA668 /* PataHeroWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = B554E51F2DC88C64008DA668 /* PataHeroWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B51798092DD521520094D1C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B538704B2D8D601D0074C396 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B51797F42DD521510094D1C6;
+			remoteInfo = PataHeroWidgetExtension;
+		};
 		B554E5402DC88C65008DA668 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B538704B2D8D601D0074C396 /* Project object */;
@@ -21,6 +31,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		B51798102DD521520094D1C6 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B517980B2DD521520094D1C6 /* PataHeroWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B554E5432DC88C65008DA668 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -35,6 +56,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B51797F52DD521510094D1C6 /* PataHeroWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PataHeroWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B51797F72DD521510094D1C6 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		B51797F92DD521510094D1C6 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		B52BDE002DC0A05B00CAB9D4 /* PataHero.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = PataHero.xcodeproj; sourceTree = "<group>"; };
 		B52EF82C2DA3AA2800BDD42A /* PataHero.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PataHero.xcodeproj; path = PataHero/PataHero.xcodeproj; sourceTree = SOURCE_ROOT; };
 		B53870532D8D601E0074C396 /* PataHero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PataHero.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,6 +69,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B517980F2DD521520094D1C6 /* Exceptions for "PataHeroWidget" folder in "PataHeroWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B51797F42DD521510094D1C6 /* PataHeroWidgetExtension */;
+		};
 		B554E5602DC8BE72008DA668 /* Exceptions for "PataHero" folder in "PataHero" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -61,12 +92,17 @@
 				Data/Local/ProcedureFractures_LocalDatabase.swift,
 				Function/Common_Function.swift,
 				Function/Data_Function.swift,
+				Input/Location_Manager.swift,
+				Input/SpeechToText_Manager.swift,
+				Output/TextToSpeech_Manager.swift,
+				View/Closest_Hospital_Screen.swift,
 				View/Component/Common_ViewComponent.swift,
 				View/Component/MultiPoint_ProgressBar.swift,
 				View/Component/ProcedureFractures_Button.swift,
+				View/ContentView.swift,
 				View/Model/Common_Model.swift,
+				View/Model/ScreenInformation.swift,
 				View/ProcedureFractureStep_Screen.swift,
-				View/ToolsInformation_Screen.swift,
 			);
 			target = B554E51E2DC88C64008DA668 /* PataHeroWatch Watch App */;
 		};
@@ -74,13 +110,15 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
-				ContentView.swift,
 				Hardware/Button_Listener.swift,
 				iOS/PhoneCall_Manager.swift,
-				Output/TextToSpeech_Manager.swift,
+				Map/Map_View.swift,
 				PataHeroWatchApp.swift,
 				"Preview Content/Preview Assets.xcassets",
-				WatchOS/HandGesture_Manager.swift,
+				WatchOS/Input/HandGesture_Manager.swift,
+				WatchOS/iOSCommunication_Manager.swift,
+				WatchOS/Model/DigitalCrown.swift,
+				WatchOS/Model/ErrorCode.swift,
 				WatchOS/Model/HandGesture.swift,
 			);
 			target = B554E51E2DC88C64008DA668 /* PataHeroWatch Watch App */;
@@ -89,7 +127,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Hardware/Button_Listener.swift,
-				Output/TextToSpeech_Manager.swift,
+				WatchOS/Model/DigitalCrown.swift,
+				WatchOS/Model/ErrorCode.swift,
 				WatchOS/Model/HandGesture.swift,
 			);
 			target = B53870522D8D601E0074C396 /* PataHero */;
@@ -97,6 +136,14 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B51797FB2DD521510094D1C6 /* PataHeroWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B517980F2DD521520094D1C6 /* Exceptions for "PataHeroWidget" folder in "PataHeroWidgetExtension" target */,
+			);
+			path = PataHeroWidget;
+			sourceTree = "<group>";
+		};
 		B53870552D8D601E0074C396 /* PataHero */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -118,6 +165,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B51797F22DD521510094D1C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B51797FA2DD521510094D1C6 /* SwiftUI.framework in Frameworks */,
+				B51797F82DD521510094D1C6 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B53870502D8D601E0074C396 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -135,6 +191,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B51797F62DD521510094D1C6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B51797F72DD521510094D1C6 /* WidgetKit.framework */,
+				B51797F92DD521510094D1C6 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B52BDE022DC0A05B00CAB9D4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +219,8 @@
 			children = (
 				B53870552D8D601E0074C396 /* PataHero */,
 				B5B207B32DCBC2C3004B775E /* PataHeroWatch Watch App */,
+				B51797FB2DD521510094D1C6 /* PataHeroWidget */,
+				B51797F62DD521510094D1C6 /* Frameworks */,
 				B53870542D8D601E0074C396 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -163,6 +230,7 @@
 			children = (
 				B53870532D8D601E0074C396 /* PataHero.app */,
 				B554E51F2DC88C64008DA668 /* PataHeroWatch Watch App.app */,
+				B51797F52DD521510094D1C6 /* PataHeroWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -191,6 +259,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B51797F42DD521510094D1C6 /* PataHeroWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B517980C2DD521520094D1C6 /* Build configuration list for PBXNativeTarget "PataHeroWidgetExtension" */;
+			buildPhases = (
+				B51797F12DD521510094D1C6 /* Sources */,
+				B51797F22DD521510094D1C6 /* Frameworks */,
+				B51797F32DD521510094D1C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B51797FB2DD521510094D1C6 /* PataHeroWidget */,
+			);
+			name = PataHeroWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = PataHeroWidgetExtension;
+			productReference = B51797F52DD521510094D1C6 /* PataHeroWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B53870522D8D601E0074C396 /* PataHero */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B53870772D8D601F0074C396 /* Build configuration list for PBXNativeTarget "PataHero" */;
@@ -199,11 +289,13 @@
 				B53870502D8D601E0074C396 /* Frameworks */,
 				B53870512D8D601E0074C396 /* Resources */,
 				B554E5432DC88C65008DA668 /* Embed Watch Content */,
+				B51798102DD521520094D1C6 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				B554E5412DC88C65008DA668 /* PBXTargetDependency */,
+				B517980A2DD521520094D1C6 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				B53870552D8D601E0074C396 /* PataHero */,
@@ -244,6 +336,9 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					B51797F42DD521510094D1C6 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					B53870522D8D601E0074C396 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -290,11 +385,19 @@
 			targets = (
 				B53870522D8D601E0074C396 /* PataHero */,
 				B554E51E2DC88C64008DA668 /* PataHeroWatch Watch App */,
+				B51797F42DD521510094D1C6 /* PataHeroWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B51797F32DD521510094D1C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B53870512D8D601E0074C396 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -312,6 +415,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B51797F12DD521510094D1C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B538704F2D8D601E0074C396 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -329,6 +439,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B517980A2DD521520094D1C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B51797F42DD521510094D1C6 /* PataHeroWidgetExtension */;
+			targetProxy = B51798092DD521520094D1C6 /* PBXContainerItemProxy */;
+		};
 		B554E5412DC88C65008DA668 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B554E51E2DC88C64008DA668 /* PataHeroWatch Watch App */;
@@ -337,6 +452,60 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		B517980D2DD521520094D1C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VTA7YX2JGG;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PataHeroWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PataHeroWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hamric.PataHero.PataHeroWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B517980E2DD521520094D1C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VTA7YX2JGG;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PataHeroWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PataHeroWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hamric.PataHero.PataHeroWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		B53870752D8D601F0074C396 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -469,6 +638,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PataHero/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to show coordinates and altitude.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -480,7 +650,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hamric.patahero.PataHero;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hamric.PataHero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -501,6 +671,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PataHero/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location to show coordinates and altitude.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -512,7 +683,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hamric.patahero.PataHero;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hamric.PataHero;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -533,14 +704,15 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "PataHeroWatch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PataHeroWatch;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.hamric.patahero.PataHero;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.hamric.PataHero;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hamric.patahero.PataHero.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hamric.PataHero.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -564,14 +736,15 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "PataHeroWatch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = PataHeroWatch;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs your location.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.hamric.patahero.PataHero;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.hamric.PataHero;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hamric.patahero.PataHero.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hamric.PataHero.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -585,6 +758,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B517980C2DD521520094D1C6 /* Build configuration list for PBXNativeTarget "PataHeroWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B517980D2DD521520094D1C6 /* Debug */,
+				B517980E2DD521520094D1C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B538704E2D8D601D0074C396 /* Build configuration list for PBXProject "PataHero" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

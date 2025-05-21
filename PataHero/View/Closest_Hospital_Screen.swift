@@ -37,20 +37,32 @@ struct Closest_Hospital_Screen: View {
                 #if !os(watchOS)
                     Route_Map_View(EkaHospital_Location)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                        .ignoresSafeArea(.all)
-                #endif
-                VStack{
-                    HStack{
+                    VStack{//watch sudah ada tombol close
+                        HStack{
+                            Button{close_request(true)}label:{}.buttonStyle(
+                                ButtonStyleSimple(Color.red.opacity(0.000000001),Color.red,27,Color.primary,iconName:"xmark")
+                            )
+                            .padding(.trailing,10)
+                            Spacer()
+                            Text("Route to Hospital")
+                                .bold()
+                            Spacer()
+    //                        .zIndex(100)
+                        }
                         Spacer()
-                        Button{print("tertekan33");close_request(true)}label:{}.buttonStyle(
-                            ButtonStyleSimple(Color.red.opacity(0.000000001),Color.red,27,Color.primary,iconName:"xmark")
-                        ).padding(.trailing,10)
-//                        .zIndex(100)
-                        
+                        HStack{
+                            Spacer()
+                            callEkaHospital_Button()
+                                .padding(.trailing, 5)
+                                .padding(.bottom, 10)
+                        }
                     }
-                    Spacer()
-                }
+                #else
+                OpenAppleMapsView()
+//                    Route_Map_View(EkaHospital_Location)
+//                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                #endif
+
             }.ignoresSafeArea(.all)
             
 //            VStack() {
@@ -122,7 +134,7 @@ struct CustomAlertView: View {
 }
 
 #Preview {
-    ToolsInformation_Screen{close_request in
+    Closest_Hospital_Screen{close_request in
         print("ditekan")
     }
     //ToolsInformation_Screen()

@@ -55,6 +55,41 @@ struct callEkaHospital_Button: View {
 }
 //#endif
 
+struct ClosestHospital_Button: View {
+    private let onClick: (Bool) -> Void
+    
+    init(_ onClick: @escaping (Bool) -> Void) {//@escaping berfungsi agar bisa lambda callback entah kenapa. jika tidak pakai katanya setara sync alias spt return
+        self.onClick = onClick
+    }
+    
+    private func maxWidth() -> Bool {
+        #if os(watchOS)
+        return false
+        #else
+        return true
+        #endif
+    }
+    
+    var body: some View {
+        Button{onClick(true)}label:{}
+            .buttonStyle(
+                ButtonStyleSimple(
+                    Color("blue"),
+                    Color("white"),
+                    27,
+                    Color.reversePrimary,
+                    maxWidth(),
+                    iconName:"cross.case.fill"
+                )
+            )
+            #if os(iOS)
+            .padding(.horizontal,30)
+            .padding(.bottom, 13)
+            #endif
+            .dynamicTypeSize(.xSmall ... .xxxLarge)
+    }
+}
+
 struct ButtonStyleSimple: ButtonStyle {
     private let color: Color
     private let colorWhenPressed: Color
@@ -109,6 +144,7 @@ struct ButtonStyleSimple: ButtonStyle {
 }
 
 #Preview {
-    callEkaHospital_Button(true)
+    ClosestHospital_Button{a in }
+//    callEkaHospital_Button(true)
 }
 
